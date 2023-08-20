@@ -137,3 +137,23 @@ if(!result){
     }
 
    }
+   export const getCategoryOfCourse=async(req,res, next) => {
+    try {
+      const categories = await Course.distinct('category');
+      const examsByCategory = {};
+  
+      for (const category of categories) {
+        const exams = await Course.find({ category }).distinct('Exam');
+        examsByCategory[category] = exams;
+      }
+      res.status(200).json({
+        success: true,
+        message: "Course Catagoies",
+        data:examsByCategory
+        
+      });
+     
+    } catch (error) {
+      next(error);
+    }
+   }
