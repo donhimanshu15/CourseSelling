@@ -1,13 +1,34 @@
-import mongoose from "mongoose";
+import mongoose  from "mongoose";
 
-const examSchema  = new mongoose.Schema({
-     userId : {type: mongoose.Schema.Types.ObjectId, ref: "User"},
-     friendsId: {type: mongoose.Schema.Types.ObjectId, ref: "User"},
-     isFriend: {type: Boolean, default: false},
-     createdAt: {type: Date, default: Date.now()},
-     updatedAt: {type: Date, default: Date.now()}
-}) 
+const testSchema = new mongoose.Schema({
+  
 
-const Exam = mongoose.model("Exam", examSchema)
+  totalTest: { type: String, required: true },
+  freeTest: { type: String, required: true },
+  title: { type: String, required: true },
+  alreadyEnrolled: { type: Number, default: 0 },
+  price: { type: Number, required: true },
+  rating: { type: Number, default: 0 },
+  languages: [{lanuguage:{ type: String, required: true }}],
+  about: { type: String, required: true },
+  highlights: [
+ {
+   description: { type: String, required: true },
+ },
+],
+testDivision: [
+  {
+    key: { type: String, required: true },
+    value: { type: String, required: true },
+  },
+],
 
-export default Exam;
+  category:{type: String, required: true},
+  Exam:{type: String, required: true},
+  createdAt: { type: Date, default: Date.now() },
+  updatedAt: { type: Date, default: Date.now() }
+})
+
+const Test = mongoose.model('Test', testSchema);
+
+module.exports = Test;
