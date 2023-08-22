@@ -31,4 +31,4 @@ testDivision: [
 
 const Test = mongoose.model('Test', testSchema);
 
-module.exports = Test;
+export default Test;

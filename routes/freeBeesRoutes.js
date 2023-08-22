@@ -1,14 +1,15 @@
 import express from "express";
 
 import { isAuthenticatedUser } from "../middleware/auth.js";
-import { createCourse, deleteCourse, getAllCourses, getParticularCourse, updateCourse } from "../controllers/courseController.js";
+
+import { createFreeBees, deleteFreeBees, getAllFreeBees, getOneFreeBees, updateFreeBees } from "../controllers/freeBeesController.js";
 const router = express.Router();
 
-router.route("/createCourse").post(createCourse);
-router.route("/getAllcourses").get(getAllCourses);
-router.route("/updateCourse/:id").put(updateCourse);
-router.route("/deleteCourse/:id").delete(deleteCourse);
-router.route("/course/:id").get(getParticularCourse)
+router.route("/createFreebees").post(createFreeBees);
+router.route("/getAllFreebees").get(getAllFreeBees);
+router.route("/updateCFreebee/:id").put(updateFreeBees);
+router.route("/deleteFreebee/:id").delete(deleteFreeBees);
+router.route("/Freebee/:id").get(getOneFreeBees)
 
 // router.route("/createUser").post(createUser);
 // router.route("/loginUser").post(loginUser);

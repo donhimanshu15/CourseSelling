@@ -4,16 +4,16 @@ const freeBeesSchema = new mongoose.Schema({
   
 
  
-freeBees: [
+freeBees: 
   {
     key: { type: String, required: true },
     value: { type: String, required: true },
   },
-],
+
   createdAt: { type: Date, default: Date.now() },
   updatedAt: { type: Date, default: Date.now() }
 })
 
-const FreeBees = mongoose.model('Test', freeBeesSchema);
+const FreeBees = mongoose.model('FreeBees', freeBeesSchema);
 
-module.exports = FreeBees;
+export default FreeBees;

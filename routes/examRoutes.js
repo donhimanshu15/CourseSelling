@@ -1,14 +1,14 @@
 import express from "express";
 
 import { isAuthenticatedUser } from "../middleware/auth.js";
-import { createCourse, deleteCourse, getAllCourses, getParticularCourse, updateCourse } from "../controllers/courseController.js";
+import { createExam, deleteExam, getAllExams, getParticularExam, updateExam } from "../controllers/examController.js";
 const router = express.Router();
 
-router.route("/createCourse").post(createCourse);
-router.route("/getAllcourses").get(getAllCourses);
-router.route("/updateCourse/:id").put(updateCourse);
-router.route("/deleteCourse/:id").delete(deleteCourse);
-router.route("/course/:id").get(getParticularCourse)
+router.route("/createTest").post(createExam);
+router.route("/getAllTest").get(getAllExams);
+router.route("/updateTest/:id").put(updateExam);
+router.route("/deleteTest/:id").delete(deleteExam);
+router.route("/Test/:id").get(getParticularExam)
 
 // router.route("/createUser").post(createUser);
 // router.route("/loginUser").post(loginUser);
