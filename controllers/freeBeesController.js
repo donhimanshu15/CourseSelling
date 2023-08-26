@@ -1,16 +1,38 @@
 import FreeBees from "../models/freeBeesSchema.js";
+import { handleUpload } from "../upload.js";
+import getDataUri from "../utils/dataUri.js";
 import Errorhandler from "../utils/errorhandler.js";
-
+import cloudinary from "cloudinary"
 
 export const createFreeBees = async (req, res, next) => {
     try {
-      const newFreeBee = await FreeBees.create(req.body);
+      if(req.body.key=="file"){
+        const file=req.file;
+      console.log(file,"uutttttt")
+        
+        const fileUri=getDataUri(file)
+     console.log(fileUri)
+     
+      const uploadedFile = await cloudinary.v2.uploader.upload(fileUri.content);
+      const newFreeBee = await FreeBees.create({key:req.body.key,value:uploadedFile.url});
       res.status(201).json({
         success: true,
         message: "Free bees Created Successfully",
         data:newFreeBee,
       });
+   
+      }
+      else if(req.body.key=="video"){
+        const newFreeBee = await FreeBees.create({key:req.body.key,value:uploadedFile.url});
+        res.status(201).json({
+          success: true,
+          message: "Free bees Created Successfully",
+          data:newFreeBee,
+        });
+      }
+   
     } catch (err) {
+      console.log("hekkkk")
       next(error)
     }
   };

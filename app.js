@@ -1,11 +1,21 @@
 import cookieParser from "cookie-parser";
 import express from "express";
+import bodyParser from "body-parser";
 import cors from "cors"
-
-
+import { v2 as cloudinary } from 'cloudinary';
+import multer from 'multer';
 const app  = express();
 
-app.use(express.json());
+// app.use(express.json({ limit: '1000mb' }));
+app.use(bodyParser.urlencoded({
+    limit: '5mb',
+    parameterLimit: 1000000000000,
+    extended: false 
+}));
+
+app.use(bodyParser.json({
+    limit: '5mb'
+}));
 app.use(cookieParser());
 app.use(cors())
 

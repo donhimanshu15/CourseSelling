@@ -1,3 +1,4 @@
+import LeadCollection from "../models/leadSchema.js";
 import User from "../models/userModel.js";
 import Errorhandler from "../utils/errorhandler.js";
 import bcrypt from "bcryptjs";
@@ -159,3 +160,35 @@ export const createUser = async (req, res, next) => {
     });
   };
   
+  export const leadCollection=async(req, res, next) => {
+    try {
+      const { mobileNumber } = req.body;
+  
+      // Validate mobileNumber (you can add more validation if needed)
+      if (!/^\d{1,10}$/.test(mobileNumber.replace(/\D/g, ""))) {
+        return next(new Errorhandler("Invalid mobile number format", 400));
+
+      }
+  
+      const newLead = await LeadCollection.create({ mobileNumber });
+      res.status(200).json({
+        success: true,
+        message: "Leads created successfully",
+        data:newLead
+      });
+    } catch (error) {
+      next(error)
+    }
+  }
+  export const getAllLeads=async(req, res, next) => {
+    try {
+      const leads = await LeadCollection.find();
+      res.status(200).json({
+        success: true,
+        message: "Leads Fetched successfully",
+        data:leads
+      });
+    } catch (error) {
+      next(error)
+    }
+  }

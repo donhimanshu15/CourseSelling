@@ -4,11 +4,10 @@ const freeBeesSchema = new mongoose.Schema({
   
 
  
-freeBees: 
-  {
+
     key: { type: String, required: true },
-    value: { type: String, required: true },
-  },
+    value: { type: String},
+  
 
   createdAt: { type: Date, default: Date.now() },
   updatedAt: { type: Date, default: Date.now() }

@@ -5,7 +5,7 @@ import mongoose from "mongoose";
 
 
 export const createTeacher = async (req, res, next) => {
-   
+
     try {
   
       const result = await Teacher.create(req.body);
