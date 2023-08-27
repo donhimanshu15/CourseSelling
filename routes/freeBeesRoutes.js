@@ -8,7 +8,7 @@ const router = express.Router();
 
 router.route("/createFreebees").post(singleUpload, createFreeBees);
 router.route("/getAllFreebees").get(getAllFreeBees);
-router.route("/updateCFreebee/:id").put(updateFreeBees);
+router.route("/updateCFreebee/:id").put(singleUpload,updateFreeBees);
 router.route("/deleteFreebee/:id").delete(deleteFreeBees);
 router.route("/Freebee/:id").get(getOneFreeBees)
 

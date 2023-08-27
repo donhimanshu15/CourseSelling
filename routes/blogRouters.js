@@ -2,12 +2,13 @@ import express from "express";
 
 import { isAuthenticatedUser } from "../middleware/auth.js";
 import { createBlog, deleteBlog, getAllblogs, getOneBlog, updateBlog } from "../controllers/blogController.js";
+import singleUpload from "../middleware/multter.js";
 
 const router = express.Router();
 
-router.route("/blog").post(createBlog);
+router.route("/blog").post(singleUpload,createBlog);
 router.route("/blogs").get(getAllblogs);
-router.route("/updateBlogs/:id").put(updateBlog);
+router.route("/updateBlogs/:id").put(singleUpload, updateBlog);
 router.route("/deleteBlog/:id").delete(deleteBlog);
 router.route("/blog/:id").get(getOneBlog)
 

@@ -1,22 +1,24 @@
 import Blog from "../models/blogSchema.js";
 import Errorhandler from "../utils/errorhandler.js";
+import getDataUri from "../utils/dataUri.js";
+import cloudinary from "cloudinary"
+
+
 export const createBlog = async (req, res, next) =>
 {
     try {
       const { title, content, image, author, tags } = req.body;
-      const blog = new Blog({
-        title,
-        content,
-        image,
-        author,
-        tags,
-      });
+      const file=req.file;
+      const fileUri=getDataUri(file)
+      const uploadedFile = await cloudinary.v2.uploader.upload(fileUri.content);
+      const blog = new Blog({...req.body,image:uploadedFile.url});
       await blog.save();
       res.status(200).json({
         success: true,
         message: "blog created Successfully",
         data: blog
     });
+    console.log(req.body,"hhh")
     } catch (error) {
       next(error)
     }

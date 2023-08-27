@@ -1,12 +1,16 @@
 import Course from "../models/courseSchema.js";
 import Errorhandler from "../utils/errorhandler.js";
+import getDataUri from "../utils/dataUri.js";
+import cloudinary from "cloudinary"
 
 
 export const createCourse = async (req, res, next) => {
    
     try {
-  
-      const result = await Course.create(req.body);
+      const file=req.file;
+      const fileUri=getDataUri(file)
+      const uploadedFile = await cloudinary.v2.uploader.upload(fileUri.content);
+      const result = await Course.create({...req.body, image:uploadedFile.url});
 if(!result){
     return next(new Errorhandler("Course Not Created", 400));
 }

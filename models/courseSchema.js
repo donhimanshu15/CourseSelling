@@ -18,6 +18,7 @@ const courseSchema = new mongoose.Schema({
      batchStarting: { type: Date, required: true },
      institute: { type: String, required: true },
      language: { type: String, required: true },
+     image: {type: String, default:"" },
      about: { type: String, required: true },
      highlights: [
     {

@@ -7,6 +7,9 @@ const teacherSchema = new mongoose.Schema({
     studentsTaught: { type: Number, default: 0 },
     selections: { type: Number, default: 0 },
     about: { type: String },
+    image: {
+        type: String, default:""
+      },
     highlights: [{ highlight:{type: String }}],
     educations: [{ 
         degree: { type: String },
