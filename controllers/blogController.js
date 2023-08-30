@@ -5,13 +5,18 @@ import cloudinary from "cloudinary"
 
 
 export const createBlog = async (req, res, next) =>
-{
+{console.log(file,"heelloooo")
     try {
       const { title, content, image, author, tags } = req.body;
       const file=req.file;
+      if(file!=undefined){
+    
       const fileUri=getDataUri(file)
       const uploadedFile = await cloudinary.v2.uploader.upload(fileUri.content);
-      const blog = new Blog({...req.body,image:uploadedFile.url});
+      const blog = new Blog({...req.body,image:uploadedFile.url});}
+      else{
+        const blog = new Blog(req.body)
+      }
       await blog.save();
       res.status(200).json({
         success: true,

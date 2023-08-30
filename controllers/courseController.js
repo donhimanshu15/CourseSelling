@@ -8,9 +8,15 @@ export const createCourse = async (req, res, next) => {
    
     try {
       const file=req.file;
+      let result;
+      if(file!=undefined){
       const fileUri=getDataUri(file)
       const uploadedFile = await cloudinary.v2.uploader.upload(fileUri.content);
-      const result = await Course.create({...req.body, image:uploadedFile.url});
+    result = await Course.create({...req.body, image:uploadedFile.url});
+      }
+      else{
+        result = await Course.create(req.body)
+      }
 if(!result){
     return next(new Errorhandler("Course Not Created", 400));
 }

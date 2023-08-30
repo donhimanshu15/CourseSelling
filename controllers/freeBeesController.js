@@ -8,7 +8,7 @@ export const createFreeBees = async (req, res, next) => {
     try {
       if(req.body.key=="file"){
         const file=req.file;
-      console.log(file,"uutttttt")
+ 
         
         const fileUri=getDataUri(file)
      console.log(fileUri)
