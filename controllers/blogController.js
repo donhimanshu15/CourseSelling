@@ -9,13 +9,14 @@ export const createBlog = async (req, res, next) =>
     try {
       const { title, content, image, author, tags } = req.body;
       const file=req.file;
+      let blog;
       if(file!=undefined){
     
       const fileUri=getDataUri(file)
       const uploadedFile = await cloudinary.v2.uploader.upload(fileUri.content);
-      const blog = new Blog({...req.body,image:uploadedFile.url});}
+      blog = new Blog({...req.body,image:uploadedFile.url});}
       else{
-        const blog = new Blog(req.body)
+         blog = new Blog(req.body)
       }
       await blog.save();
       res.status(200).json({
