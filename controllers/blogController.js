@@ -31,26 +31,29 @@ export const createBlog = async (req, res, next) =>
   };
   
   // Get all blog posts
-  export const getAllblogs = async (req, res, next) =>
-  {
+  export const getAllblogs = async (req, res, next) => {
     try {
       const { tag } = req.query;
-
+  
       let query = {};
-      if (tag) {
+  
+      // Check if the tag is "all," and if not, filter by the specified tag(s)
+      if (tag && tag !== 'All') {
         query.tags = { $in: [tag] };
       }
   
       const blogs = await Blog.find(query);
+  
       res.status(200).json({
         success: true,
-        message: "blog fetched Successfully",
+        message: "Blogs fetched successfully",
         data: blogs
-    });
+      });
     } catch (error) {
-    next(error)
+      next(error);
     }
   };
+  
   export const updateBlog = async (req, res, next) =>
   {
     try {
