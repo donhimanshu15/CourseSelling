@@ -23,7 +23,7 @@ export const createFreeBees = async (req, res, next) => {
    
       }
       else if(req.body.key=="video"){
-        const newFreeBee = await FreeBees.create({key:req.body.key,value:uploadedFile.url});
+        const newFreeBee = await FreeBees.create(req.body);
         res.status(201).json({
           success: true,
           message: "Free bees Created Successfully",

@@ -8,10 +8,15 @@ import cloudinary from "cloudinary"
 export const createTeacher = async (req, res, next) => {
 
     try {
+let result;
       const file=req.file;
+      if(file!=undefined){
       const fileUri=getDataUri(file)
       const uploadedFile = await cloudinary.v2.uploader.upload(fileUri.content);
-      const result = await Teacher.create({...req.body,image:uploadedFile.url});
+       result = await Teacher.create({...req.body,image:uploadedFile.url});}
+       else{
+        result = await Teacher.create(req.body)
+       }
 if(!result){
     return next(new Errorhandler("Teacher Not Created", 400));
 }

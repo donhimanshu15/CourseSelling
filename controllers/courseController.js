@@ -129,7 +129,7 @@ if(!result){
 
     try {
    
-      const getParticularCourse = await Course.findById(courseId);
+      const getParticularCourse = await Course.findById(courseId).populate('mentorNames._id');;
   
       if (!getParticularCourse) {
         return next(new Errorhandler("Courses Not Found", 400));
