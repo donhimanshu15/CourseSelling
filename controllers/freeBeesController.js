@@ -41,21 +41,21 @@ export const createFreeBees = async (req, res, next) => {
   
 export const getAllFreeBees = async (req, res, next) => {
     try {
-        const { search, sort } = req.query;
+      const { search, filter } = req.query;
 
-        let query = {};
-    
-        if (search) {
-          query['freeBees.value'] = { $regex: search, $options: 'i' };
-        }
-    
-        let sortOptions = { 'freeBees.key': 1 };
-    
-        if (sort === 'desc') {
-          sortOptions = { 'freeBees.key': -1 };
-        }
-    
-        const freeBees = await FreeBees.find(query).sort(sortOptions);
+      // Create a query object for filtering
+      const query = {};
+  
+      // If a search term is provided, use it to filter by the 'key' field
+      if (search) {
+        query.value = { $regex: search, $options: 'i' }; // Case-insensitive search using regex
+      }
+  
+      // If a filter is provided, filter by the 'key' field
+      if (filter) {
+        query.key = filter;
+      }
+        const freeBees = await FreeBees.find(query);
       res.status(200).json({
         success: true,
         message: "Free bees fetched Successfully",
