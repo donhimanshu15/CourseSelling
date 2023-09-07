@@ -21,9 +21,7 @@ if(!result){
   };
 
   export const getAllExams= async(req,res, next) => {
-   let a;
-   a.push("hello");
-   dddd
+ 
     const { page = 1, limit = 10, sort = '-rating', search, exam, category } = req.query;
 
     // Build the aggregation pipeline based on filters and search
