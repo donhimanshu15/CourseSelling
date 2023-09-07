@@ -5,7 +5,7 @@ import cloudinary from "cloudinary"
 
 
 export const createBlog = async (req, res, next) =>
-{console.log(file,"heelloooo")
+{
     try {
       const { title, content, image, author, tags } = req.body;
       const file=req.file;

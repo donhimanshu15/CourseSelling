@@ -11,10 +11,9 @@ export const createFreeBees = async (req, res, next) => {
  
         
         const fileUri=getDataUri(file)
-     console.log(fileUri)
-     
+
       const uploadedFile = await cloudinary.v2.uploader.upload(fileUri.content);
-      const newFreeBee = await FreeBees.create({key:req.body.key,value:uploadedFile.url});
+      const newFreeBee = await FreeBees.create({key:req.body.key,about:req.body.about,value:uploadedFile.url});
       res.status(201).json({
         success: true,
         message: "Free bees Created Successfully",

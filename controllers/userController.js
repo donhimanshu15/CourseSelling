@@ -1,3 +1,4 @@
+import Contact from "../models/contactSchema.js";
 import LeadCollection from "../models/leadSchema.js";
 import User from "../models/userModel.js";
 import Errorhandler from "../utils/errorhandler.js";
@@ -187,6 +188,39 @@ export const createUser = async (req, res, next) => {
         success: true,
         message: "Leads Fetched successfully",
         data:leads
+      });
+    } catch (error) {
+      next(error)
+    }
+  }
+
+  export const getAllFormData=async(req, res, next) => {
+    try {
+      const leads = await Contact.find();
+      res.status(200).json({
+        success: true,
+        message: "Form data Fetched successfully",
+        data:leads
+      });
+    } catch (error) {
+      next(error)
+    }
+  }
+  export const FormCollection=async(req, res, next) => {
+    try {
+      const { phone } = req.body;
+  
+      // Validate mobileNumber (you can add more validation if needed)
+      if (!/^\d{1,10}$/.test(phone.replace(/\D/g, ""))) {
+        return next(new Errorhandler("Invalid mobile number format", 400));
+
+      }
+  
+      const newLead = await Contact.create(req.body);
+      res.status(200).json({
+        success: true,
+        message: "Form data created successfully",
+        data:newLead
       });
     } catch (error) {
       next(error)
