@@ -11,11 +11,13 @@ export const createCourse = async (req, res, next) => {
       let result;
       if(file!=undefined){
       const fileUri=getDataUri(file)
+      const formData = JSON.parse(req.body.formData);
       const uploadedFile = await cloudinary.v2.uploader.upload(fileUri.content);
-    result = await Course.create({...req.body, image:uploadedFile.url});
+    result = await Course.create({...formData, image:uploadedFile.url});
       }
       else{
-        result = await Course.create(req.body)
+        const formData = JSON.parse(req.body.formData);
+        result = await Course.create(formData)
       }
 if(!result){
     return next(new Errorhandler("Course Not Created", 400));
@@ -81,12 +83,25 @@ if(!result){
     export const updateCourse= async(req,res, next) => {
         const courseId = req.params.id;
         const updateData = req.body;
+        
       
         try {
-        
-          const updatedCourse = await Course.findByIdAndUpdate(courseId, updateData, {
+          const file=req.file;
+          let updatedCourse;
+          if(file!=undefined){
+          const formData = JSON.parse(req.body.formData);
+          const fileUri=getDataUri(file)
+          const uploadedFile = await cloudinary.v2.uploader.upload(fileUri.content);
+          
+          updatedCourse = await Course.findByIdAndUpdate(courseId, {...formData,image:uploadedFile.url}, {
             new: true, 
-          });
+          });}
+          else{
+            const formData = JSON.parse(req.body.formData);
+            updatedCourse = await Course.findByIdAndUpdate(courseId, formData, {
+              new: true, 
+            })
+          }
       
           if (!updatedCourse) {
             return next(new Errorhandler("Courses Not Found", 400));

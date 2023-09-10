@@ -12,10 +12,13 @@ let result;
       const file=req.file;
       if(file!=undefined){
       const fileUri=getDataUri(file)
+      const formData = JSON.parse(req.body.formData);
       const uploadedFile = await cloudinary.v2.uploader.upload(fileUri.content);
-       result = await Teacher.create({...req.body,image:uploadedFile.url});}
+       result = await Teacher.create({...formData,image:uploadedFile.url});}
        else{
-        result = await Teacher.create(req.body)
+        const formData = JSON.parse(req.body.formData);
+
+        result = await Teacher.create(formData)
        }
 if(!result){
     return next(new Errorhandler("Teacher Not Created", 400));
@@ -33,12 +36,24 @@ if(!result){
   export const updateTeacher= async(req,res, next) => {
     const teacherId = req.params.id;
     const updateData = req.body;
-  
+  let updatedTeacher;
     try {
-    
-      const updatedTeacher= await Teacher.findByIdAndUpdate(teacherId, updateData, {
+      const file=req.file;
+      if(file!=undefined){
+      const fileUri=getDataUri(file)
+      const formData = JSON.parse(req.body.formData);
+      const uploadedFile = await cloudinary.v2.uploader.upload(fileUri.content);
+     updatedTeacher= await Teacher.findByIdAndUpdate(teacherId, {...formData,image:uploadedFile.url}, {
         new: true, 
-      });
+      });}
+
+      else{
+const formData = JSON.parse(req.body.formData);
+console.log(formData,"helllo")
+updatedTeacher= await Teacher.findByIdAndUpdate(teacherId,formData,{
+  new:true
+})
+      }
   
       if (!updatedTeacher) {
         return next(new Errorhandler("Teacher Not Found", 400));

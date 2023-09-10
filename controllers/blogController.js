@@ -13,10 +13,12 @@ export const createBlog = async (req, res, next) =>
       if(file!=undefined){
     
       const fileUri=getDataUri(file)
+      const formData = JSON.parse(req.body.formData);
       const uploadedFile = await cloudinary.v2.uploader.upload(fileUri.content);
-      blog = new Blog({...req.body,image:uploadedFile.url});}
+      blog = new Blog({...formData,image:uploadedFile.url});}
       else{
-         blog = new Blog(req.body)
+        const formData = JSON.parse(req.body.formData);
+         blog = new Blog(formData)
       }
       await blog.save();
       res.status(200).json({
@@ -58,18 +60,25 @@ export const createBlog = async (req, res, next) =>
   {
     try {
       const { title, content, image, author, tags } = req.body;
-      const updatedBlog = await Blog.findByIdAndUpdate(
+       const file=req.file;
+      let updatedBlog;
+      if(file!=undefined){
+        const fileUri=getDataUri(file)
+        const formData = JSON.parse(req.body.formData);
+        const uploadedFile = await cloudinary.v2.uploader.upload(fileUri.content);
+     updatedBlog = await Blog.findByIdAndUpdate(
         req.params.id,
         {
-          title,
-          content,
-          image,
-          author,
-          tags,
+        ...formData,
           updatedAt: Date.now(),
+          image:uploadedFile.url
         },
         { new: true }
-      );
+      );}
+      else{
+        const formData = JSON.parse(req.body.formData);
+        updateBlog = new Blog({...formData,updatedAt: Date.now()})
+      }
   
       if (!updatedBlog) {
         return next(new Errorhandler("Blog Not Found", 400));
