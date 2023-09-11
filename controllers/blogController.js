@@ -64,7 +64,7 @@ export const createBlog = async (req, res, next) =>
       let updatedBlog;
       if(file!=undefined){
         const fileUri=getDataUri(file)
-        const formData = JSON.parse(req.body.formData);
+        let formData = JSON.parse(req.body.formData);
         const uploadedFile = await cloudinary.v2.uploader.upload(fileUri.content);
      updatedBlog = await Blog.findByIdAndUpdate(
         req.params.id,
@@ -74,10 +74,20 @@ export const createBlog = async (req, res, next) =>
           image:uploadedFile.url
         },
         { new: true }
-      );}
+      );
+    }
       else{
-        const formData = JSON.parse(req.body.formData);
-        updateBlog = new Blog({...formData,updatedAt: Date.now()})
+       
+        let formData = JSON.parse(req.body.formData);
+        console.log(formData,"ehh")
+        updatedBlog = await Blog.findByIdAndUpdate(
+          req.params.id,
+          {
+          ...formData,
+          
+          },
+          { new: true }
+        )
       }
   
       if (!updatedBlog) {
